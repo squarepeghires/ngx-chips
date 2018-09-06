@@ -1,13 +1,13 @@
 <!-- CONTAINER -->
 
+<!--(drop)="dragZone ? onTagDropped($event, undefined) : undefined"-->
+<!--(dragenter)="dragZone ? onDragOver($event) : undefined"-->
+<!--(dragover)="dragZone ? onDragOver($event) : undefined"-->
+<!--(dragend)="dragZone ? dragProvider.onDragEnd() : undefined"-->
+
 <div ngClass="ng2-tag-input {{ theme || '' }}"
      (click)="focus(true, false)"
      [attr.tabindex]="-1"
-
-     (drop)="dragZone ? onTagDropped($event, undefined) : undefined"
-     (dragenter)="dragZone ? onDragOver($event) : undefined"
-     (dragover)="dragZone ? onDragOver($event) : undefined"
-     (dragend)="dragZone ? dragProvider.onDragEnd() : undefined"
 
      [class.ng2-tag-input--dropping]="isDropping()"
      [class.ng2-tag-input--disabled]="disable"
@@ -16,7 +16,17 @@
      [class.ng2-tag-input--focused]="isInputFocused()">
 
     <!-- TAGS -->
-    <div class="ng2-tags-container">
+    <div class="ng2-tags-container" [dragula]="dragZone">
+
+        <!--draggable="{{ editable }}"-->
+        <!--(dragstart)="dragZone ? onDragStarted($event, item, i) : undefined"-->
+        <!--(drop)="dragZone ? onTagDropped($event, i) : undefined"-->
+        <!--(dragenter)="dragZone ? onDragOver($event) : undefined"-->
+        <!--(dragover)="dragZone ? onDragOver($event, i) : undefined"-->
+        <!--(dragleave)="dragZone ? dragProvider.onDragEnd() : undefined"-->
+        <!--[draggable]="dragZone"-->
+        <!--[@animation]="animationMetadata"-->
+
         <tag *ngFor="let item of items; let i = index; trackBy: trackBy"
 
              (onSelect)="selectItem(item)"
@@ -24,18 +34,11 @@
              (onKeyDown)="handleKeydown($event)"
              (onTagEdited)="updateEditedTag($event)"
              (onBlur)="onTagBlurred($event, i)"
-             draggable="{{ editable }}"
-
-             (dragstart)="dragZone ? onDragStarted($event, item, i) : undefined"
-             (drop)="dragZone ? onTagDropped($event, i) : undefined"
-             (dragenter)="dragZone ? onDragOver($event) : undefined"
-             (dragover)="dragZone ? onDragOver($event, i) : undefined"
-             (dragleave)="dragZone ? dragProvider.onDragEnd() : undefined"
 
              [canAddTag]="isTagValid"
              [attr.tabindex]="0"
              [disabled]="disable"
-             [@animation]="animationMetadata"
+
              [hasRipple]="ripple"
              [index]="i"
              [removable]="removable"
@@ -43,28 +46,27 @@
              [displayBy]="displayBy"
              [identifyBy]="identifyBy"
              [template]="!!hasCustomTemplate() ? templates.first : undefined"
-             [draggable]="dragZone"
              [model]="item">
         </tag>
-
-        <tag-input-form
-            (onSubmit)="onFormSubmit()"
-            (onBlur)="blur()"
-            (click)="dropdown ? dropdown.show() : undefined"
-            (onKeydown)="fireEvents('keydown', $event)"
-            (onKeyup)="fireEvents('keyup', $event)"
-
-            [(inputText)]="inputText"
-            [disabled]="disable"
-            [validators]="validators"
-            [asyncValidators]="asyncValidators"
-            [hidden]="maxItemsReached"
-            [placeholder]="items.length ? placeholder : secondaryPlaceholder"
-            [inputClass]="inputClass"
-            [inputId]="inputId"
-            [tabindex]="tabindex">
-        </tag-input-form>
     </div>
+
+    <tag-input-form
+        (onSubmit)="onFormSubmit()"
+        (onBlur)="blur()"
+        (click)="dropdown ? dropdown.show() : undefined"
+        (onKeydown)="fireEvents('keydown', $event)"
+        (onKeyup)="fireEvents('keyup', $event)"
+
+        [(inputText)]="inputText"
+        [disabled]="disable"
+        [validators]="validators"
+        [asyncValidators]="asyncValidators"
+        [hidden]="maxItemsReached"
+        [placeholder]="items.length ? placeholder : secondaryPlaceholder"
+        [inputClass]="inputClass"
+        [inputId]="inputId"
+        [tabindex]="tabindex">
+    </tag-input-form>
 
     <div class="progress-bar" *ngIf="isProgressBarVisible$ | async"></div>
 </div>

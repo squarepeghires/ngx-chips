@@ -11,6 +11,7 @@ import { TagInputForm } from './components/tag-input-form/tag-input-form.compone
 import { TagComponent } from './components/tag/tag.component';
 import { TagInputDropdown } from './components/dropdown/tag-input-dropdown.component';
 import { TagRipple } from './components/tag/tag-ripple.component';
+import { DragulaModule } from 'ng2-dragula';
 
 const optionsProvider = new OptionsProvider();
 
@@ -19,7 +20,9 @@ const optionsProvider = new OptionsProvider();
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
-        Ng2DropdownModule
+        Ng2DropdownModule,
+
+        DragulaModule.forRoot()
     ],
     declarations: [
         TagInputComponent,
