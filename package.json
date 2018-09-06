@@ -6,7 +6,7 @@
     "release": "npm run build && npm publish dist",
     "postrelease": "rm -rf dist",
     "build": "ng-packagr -p package.json && mkdir ./dist/dist && cp -R ./modules/core/styles ./dist/core/styles && cp ./dist/bundles/ngx-chips.umd.js ./dist/dist/ngx-chips.bundle.js",
-    "server": "webpack-dev-server --config webpack.demo.js --inline --colors --progress --port 3010 --content-base demo",
+    "server": "webpack-dev-server --config webpack.demo.js --inline --colors --progress --host 0.0.0.0 --port 3010 --content-base demo",
     "start": "npm run server",
     "test": "karma start karma.conf.js",
     "codecov": "codecov"
@@ -73,7 +73,9 @@
     "zone.js": "0.8.26"
   },
   "dependencies": {
-    "ng2-material-dropdown": "0.10.1"
+    "ng2-material-dropdown": "0.10.1",
+    "drag-drop-touch-polyfill": "^1.0.0",
+    "mobile-drag-drop": "^2.3.0-rc.1"
   },
   "peerDependencies": {
     "@angular/animations": "^6.0.0",
@@ -107,7 +109,8 @@
       }
     },
     "whitelistedNonPeerDependencies": [
-      "ng2-material-dropdown"
+      "ng2-material-dropdown",
+      "drag-drop-touch-polyfill"
     ]
   }
 }
